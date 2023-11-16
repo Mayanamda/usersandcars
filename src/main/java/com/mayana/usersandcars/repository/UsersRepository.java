@@ -7,4 +7,5 @@ import com.mayana.usersandcars.entity.Users;
 
 @Repository
 public interface UsersRepository extends JpaRepository<Users, Long> {
+	Users findByLogin(String login);
 }

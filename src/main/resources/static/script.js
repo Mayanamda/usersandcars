@@ -4,6 +4,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const createUserForm = document.getElementById("create-user-form");
     const createCarForm = document.getElementById("create-car-form");
 
+    function getJwtToken() {
+        return localStorage.getItem("jwtToken");
+    }
+
+    function addAuthorizationHeader(headers) {
+        const jwtToken = getJwtToken();
+        if (jwtToken) {
+            headers["Authorization"] = `Bearer ${jwtToken}`;
+        }
+    }
+
     function displayUsers(users) {
         usersList.innerHTML = "";
         users.forEach(user => {
@@ -22,13 +33,17 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    fetch("/api/users/")
-        .then(response => response.json())
-        .then(data => displayUsers(data));
+    fetch("/api/users/", {
+        headers: addAuthorizationHeader({})
+    })
+    .then(response => response.json())
+    .then(data => displayUsers(data));
 
-    fetch("/api/cars/")
-        .then(response => response.json())
-        .then(data => displayCars(data));
+    fetch("/api/cars/", {
+        headers: addAuthorizationHeader({})
+    })
+    .then(response => response.json())
+    .then(data => displayCars(data));
 
     createUserForm.addEventListener("submit", event => {
         event.preventDefault();
@@ -40,7 +55,8 @@ document.addEventListener("DOMContentLoaded", () => {
         fetch("/api/users/", {
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                ...addAuthorizationHeader({})
             },
             body: JSON.stringify(user)
         })
@@ -62,7 +78,8 @@ document.addEventListener("DOMContentLoaded", () => {
         fetch("/api/cars/", {
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                ...addAuthorizationHeader({})
             },
             body: JSON.stringify(car)
         })

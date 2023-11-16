@@ -23,8 +23,53 @@ public class Users {
     private String login;
     private String password;
     private String phone;
+    private List<String> roles;
+    private boolean accountExpired;
+    private boolean accountLocked;
+    private boolean credentialsExpired;
+    private boolean enabled;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "users")
+    public List<String> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<String> roles) {
+		this.roles = roles;
+	}
+
+	public boolean isAccountExpired() {
+		return accountExpired;
+	}
+
+	public void setAccountExpired(boolean accountExpired) {
+		this.accountExpired = accountExpired;
+	}
+
+	public boolean isAccountLocked() {
+		return accountLocked;
+	}
+
+	public void setAccountLocked(boolean accountLocked) {
+		this.accountLocked = accountLocked;
+	}
+
+	public boolean isCredentialsExpired() {
+		return credentialsExpired;
+	}
+
+	public void setCredentialsExpired(boolean credentialsExpired) {
+		this.credentialsExpired = credentialsExpired;
+	}
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "users")
     private List<Cars> cars;
 
 	public Long getId() {
